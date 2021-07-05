@@ -1,0 +1,24 @@
+public void salvarArquivo () throws FileNotFoundException {
+	JFileChooser chooser = new JFileChooser();
+	chooser.addChoosableFileFilter(new FileNameExtensionFilter("Arquivo txt", ".txt"));
+	int opcaoSelecionada = chooser.showSaveDialog(null);
+	if (opcaoSelecionada == JFileChooser.APPROVE_OPTION) {
+		boolean gravar = true;
+		File arquivo = chooser.getSelectedFile();
+		if (arquivo.exists()) {
+			opcaoSelecionada = JOptionPane.showConfirmDialog(null, " O arquivo já existe, deseja sobrescrevê-lo?", null, JOptionPane.OK_CANCEL_OPTION);
+			gravar = opcaoSelecionada == JOptionPane.OK_OPTION;
+		}
+		if (gravar) {
+			try {
+				String texto = textPane.getText();
+				PrintWriter pw = new PrintWriter(new FileWriter (arquivo));
+				pw.print(texto);
+				pw.flush();
+				pw.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
